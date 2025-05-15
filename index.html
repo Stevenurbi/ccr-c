@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de Certificado - Carrera Capital</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="building-logo">
+                <span>CC</span>
+            </div>
+            <h1>Carrera Capital</h1>
+            <p>Solicitud de Certificado de Residencia</p>
+        </header>
+
+        <div class="form-container">
+            <form id="residenceForm">
+                <div id="errorAlert" class="alert alert-danger hidden"></div>
+                <div id="successAlert" class="alert alert-success hidden"></div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="firstName" class="required">Nombre(s)</label>
+                            <input type="text" id="firstName" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="lastName" class="required">Apellido(s)</label>
+                            <input type="text" id="lastName" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="email" class="required">Correo Electrónico</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="phone" class="required">Teléfono</label>
+                            <input type="tel" id="phone" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="apartment" class="required">Departamento / Unidad</label>
+                    <input type="text" id="apartment" class="form-control" placeholder="Ej: 12A, 305, etc." required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="moveInDate" class="required">Fecha de Ingreso</label>
+                            <input type="date" id="moveInDate" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="documentType" class="required">Tipo de Documento</label>
+                            <select id="documentType" class="form-control" required>
+                                <option value="">Seleccione...</option>
+                                <option value="DNI">DNI</option>
+                                <option value="Cédula">Cédula</option>
+                                <option value="Pasaporte">Pasaporte</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="documentNumber" class="required">Número de Documento</label>
+                    <input type="text" id="documentNumber" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="purpose">Propósito del Certificado (opcional)</label>
+                    <textarea id="purpose" class="form-control" rows="3" placeholder="Ej: Trámite bancario, solicitud de visa, etc."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" id="terms" class="form-check-input" required>
+                        <label for="terms" class="form-check-label">Acepto que la información proporcionada es verídica y autorizo a Carrera Capital a verificar los datos.</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-block" id="submitBtn">
+                    <span id="btnText">Solicitar Certificado</span>
+                    <div id="btnLoader" class="hidden">
+                        <i class="fas fa-spinner fa-spin"></i> Procesando...
+                    </div>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
