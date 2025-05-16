@@ -3,7 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
-const { pool } = require('./config/db');
+const { pool, sql } = require('./config/db');
+const { generatePDF } = require('./utils/pdfGenerator');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -11,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '../frontend')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Rutas
 app.use('/api/certificados', require('./routes/certificadoRoutes'));
@@ -39,11 +40,6 @@ app.get('/api/certificados/download/:id', async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'Error al generar el certificado' });
     }
-});
-
-// Ruta para la página de éxito
-app.get('/success.html', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/success.html'));
 });
 
 // Iniciar servidor
