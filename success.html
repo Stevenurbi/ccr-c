@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud Recibida - Carrera Capital</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="building-logo">
+                <span>CC</span>
+            </div>
+            <h1>Carrera Capital</h1>
+            <p>Solicitud de Certificado de Residencia</p>
+        </header>
+
+        <div class="form-container" style="text-align: center;">
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                <h2 style="margin-bottom: 15px;">¡Solicitud Recibida!</h2>
+                <p>Tu solicitud de certificado de residencia ha sido recibida correctamente y está siendo procesada.</p>
+                <p>Número de solicitud: <strong id="requestId"></strong></p>
+                <p>Recibirás una notificación por correo electrónico cuando tu certificado esté listo.</p>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <button id="downloadBtn" class="btn" type="button" style="display: none;">
+                    <i class="fas fa-download"></i> Descargar Certificado
+                </button>
+                <a href="/" class="btn" style="background-color: var(--primary-color); margin-top: 15px;">
+                    <i class="fas fa-home"></i> Volver al Inicio
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const requestId = urlParams.get('requestId');
+            
+            if (requestId) {
+                document.getElementById('requestId').textContent = `CC-${requestId.padStart(5, '0')}`;
+                checkCertificateStatus(requestId);
+            }
+        });
+
+        async function checkCertificateStatus(requestId) {
+            try {
+                const response = await fetch(`/api/certificados/${requestId}`);
+                const data = await response.json();
+                
+                if (data.estado === 'aprobado' || data.estado === 'pendiente' || !data.estado) {
+                    // Si tu backend no maneja "aprobado", elimina la condición o ajústala según tu lógica
+                    const downloadBtn = document.getElementById('downloadBtn');
+                    downloadBtn.style.display = 'inline-block';
+                    downloadBtn.onclick = () => {
+                        window.open(`/api/certificados/download/${requestId}`, '_blank');
+                    };
+                    // Descargar automáticamente en nueva pestaña solo la primera vez
+                    if (!window._pdfOpened) {
+                        window._pdfOpened = true;
+                        window.open(`/api/certificados/download/${requestId}`, '_blank');
+                    }
+                } else {
+                    // Volver a verificar en 5 segundos
+                    setTimeout(() => checkCertificateStatus(requestId), 5000);
+                }
+            } catch (error) {
+                console.error('Error verificando estado:', error);
+                setTimeout(() => checkCertificateStatus(requestId), 5000);
+            }
+        }
+    </script>
+</body>
+</html>
